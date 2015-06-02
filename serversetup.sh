@@ -32,7 +32,7 @@ echo "Setting timezone"
 cp /usr/share/zoneinfo/Europe/London /etc/localtime
 
 if [ $server_type == "1" ]; then
-	echo "Configuring webserver.."
+	echo "Configuring webserver"
 	echo "Installing dependencies.."
 	yum install -y httpd php php-mbstring postfix mysql mysql-server php-mysql php-gd php-zip mod_ssl vsftpd pam_mysql nano wget mlocate mod_evasive mailx
 
@@ -97,7 +97,7 @@ if( $_SERVER['DOCUMENT_ROOT'] ){
 EOF
 
     echo "Configure MySQL"
-    systemctl start mysqld.service
+    systemctl start mariadb.service
     #mysqladmin -u root password ${mysql_root_password}
 
     echo "Configure VSFTPD"
