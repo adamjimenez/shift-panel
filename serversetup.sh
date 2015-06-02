@@ -8,23 +8,23 @@ function die
 
 clear
 
-#if [ -z "${mysql_root_password}" ]; then
+if [ -z "${mysql_root_password}" ]; then
   read -p "MySQL root password:" mysql_root_password
   mysql_root_password=${mysql_root_password}
-#fi
+fi
 
 admin_password=$(</dev/urandom tr -dc A-Za-z0-9 | head -c12)
 
 clear
 
-#if [ -z "${server_type}" ]; then
+if [ -z "${server_type}" ]; then
   read -p "Choose server type
 1. webserver [x]
 2. mailserver
 --
 " server_type
   server_type=${server_type:-1}
-#fi
+fi
 
 clear
 
