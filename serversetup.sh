@@ -98,7 +98,7 @@ EOF
 
     echo "Configure MySQL"
     systemctl start mariadb.service
-    #mysqladmin -u root password ${mysql_root_password}
+    mysqladmin -u root password ${mysql_root_password}
 
     echo "Configure VSFTPD"
     useradd -G users -s /sbin/nologin -d /home/vsftpd  vsftpd
