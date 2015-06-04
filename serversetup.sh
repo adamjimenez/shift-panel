@@ -433,7 +433,7 @@ chgrp postfix /etc/postfix/mysql-virtual_*.cf
 groupadd -g 5000 vmail
 useradd -g vmail -u 5000 vmail -d /home/vmail -m
 
-postconf -e 'myhostname = $(hostname)'
+postconf -e "myhostname = $(hostname)"
 postconf -e 'mydestination = $myhostname, localhost, localhost.localdomain'
 postconf -e 'mynetworks = 127.0.0.0/8'
 postconf -e 'inet_interfaces = all'
