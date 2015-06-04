@@ -576,14 +576,17 @@ EOF
     systemctl enable postgrey.service
 
     echo "Configure Webmail"
-wget -O /var/www/html/roundcubemail.tar.gz /var/www/html http://sourceforge.net/projects/roundcubemail/files/roundcubemail/1.1.1/roundcubemail-1.1.1.tar.gz/download
-tar -C /var/www/html -zxf /var/www/html/roundcubemail.tar.gz
-rm -f /var/www/html/roundcubemail.tar.gz
-rm -Rf /var/www/html/roundcube/*
-mv /var/www/html/roundcubemail-1.1.1 /var/www/html/roundcube
-chown root:root -R /var/www/html/roundcube
-chmod 777 -R /var/www/html/roundcube/temp/
-chmod 777 -R /var/www/html/roundcube/logs/
+if [ ! -d /var/www/html/roundcube ]; then
+	wget -O /var/www/html/roundcubemail.tar.gz /var/www/html http://sourceforge.net/projects/roundcubemail/files/roundcubemail/1.1.1/roundcubemail-1.1.1.tar.gz/download
+	tar -C /var/www/html -zxf /var/www/html/roundcubemail.tar.gz
+	rm -f /var/www/html/roundcubemail.tar.gz
+	rm -Rf /var/www/html/roundcube/*
+	mkdir /var/www/html/roundcube
+	mv /var/www/html/roundcubemail-1.1.1/* /var/www/html/roundcube
+	chown root:root -R /var/www/html/roundcube
+	chmod 777 -R /var/www/html/roundcube/temp/
+	chmod 777 -R /var/www/html/roundcube/logs/
+fi
 
 sed -e "s|mypassword|${admin_password}|" <<EOF | mysql -u root -p"${mysql_root_password}"
 USE mysql;
