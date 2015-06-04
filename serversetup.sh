@@ -301,7 +301,7 @@ elif [ $server_type == "2" ]; then
     systemctl enable httpd.service
 
     echo "Configure MySQL"
-    systemctl start mysqld.service
+    systemctl start mariadb.service
 
     mysql -u root -p${mysql_root_password} << EOF
     CREATE DATABASE IF NOT EXISTS mail;
