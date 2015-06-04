@@ -573,7 +573,7 @@ wget -O /var/www/html/roundcubemail.tar.gz /var/www/html http://sourceforge.net/
 tar -C /var/www/html -zxf /var/www/html/roundcubemail.tar.gz
 rm -f /var/www/html/roundcubemail.tar.gz
 rm -Rf /var/www/html/roundcube/*
-mv /var/www/html/roundcubemail-*/* /var/www/html/roundcube/
+mv /var/www/html/roundcubemail-*/* /var/www/html/roundcube
 chown root:root -R /var/www/html/roundcube
 chmod 777 -R /var/www/html/roundcube/temp/
 chmod 777 -R /var/www/html/roundcube/logs/
