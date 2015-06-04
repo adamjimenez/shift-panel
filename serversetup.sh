@@ -362,6 +362,13 @@ FLUSH PRIVILEGES;
 EOF
 
     echo "Configure Apache"
+    
+    if [ ! -d /var/www/vhosts/ ]; then
+    mkdir /var/www/vhosts/
+    fi
+    
+    chown apache /var/www/vhosts/
+    chmod 755 /var/www/vhosts/
 
     if [ ! -d /var/www/vhosts/$(hostname) ]; then
     mkdir /var/www/vhosts/$(hostname)
