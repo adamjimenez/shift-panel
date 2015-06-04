@@ -569,9 +569,9 @@ EOF
     systemctl enable postgrey.service
 
     echo "Configure Webmail"
-wget -O /var/www/html/roundcubemail-1.0.0.tar.gz /var/www/html http://sourceforge.net/projects/roundcubemail/files/roundcubemail/1.0.0/roundcubemail-1.0.0.tar.gz/download
-tar -C /var/www/html -zxf /var/www/html/roundcubemail-*.tar.gz
-rm -f /var/www/html/roundcubemail-*.tar.gz
+wget -O /var/www/html/roundcubemail.tar.gz /var/www/html http://sourceforge.net/projects/roundcubemail/files/roundcubemail/1.1.1/roundcubemail-1.1.1.tar.gz/download
+tar -C /var/www/html -zxf /var/www/html/roundcubemail.tar.gz
+rm -f /var/www/html/roundcubemail.tar.gz
 rm -Rf /var/www/html/roundcube/*
 mv /var/www/html/roundcubemail-*/* /var/www/html/roundcube/
 chown root:root -R /var/www/html/roundcube
