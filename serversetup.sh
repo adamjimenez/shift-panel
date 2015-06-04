@@ -44,7 +44,7 @@ if [ $server_type == "1" ]; then
     systemctl enable vsftpd.service
 
     echo "Configure Apache"
-    cat <<'EOF' > /etc/httpd/conf.d/vhost.conf
+    cat <<EOF > /etc/httpd/conf.d/vhost.conf
 #IncludeOptional /var/www/vhosts/*/conf/vhost.con[f]
 
 # get the server name from the Host: header
@@ -78,7 +78,7 @@ EOF
     chown apache /var/www/vhosts/
     chmod 755 /var/www/vhosts/
 
-    cat <<'EOF' > /var/www/vhosts/prepend.php
+    cat <<EOF > /var/www/vhosts/prepend.php
 <?php
 if( $_SERVER["DOCUMENT_ROOT"] === '/var/www/html' ){
     $_SERVER["DOCUMENT_ROOT"] = '/var/www/vhosts/'.$_SERVER['HTTP_HOST'];
@@ -106,7 +106,7 @@ EOF
         cp -v /etc/vsftpd/vsftpd.conf   /etc/vsftpd/vsftpd.conf-orig
     fi
 
-    cat <<'EOF' > /etc/vsftpd/vsftpd.conf
+    cat <<EOF > /etc/vsftpd/vsftpd.conf
 # Allow anonymous FTP? (Beware - allowed by default if you comment this out).
 anonymous_enable=NO
 #
@@ -261,7 +261,7 @@ EOF
     cp /etc/pam.d/vsftpd /etc/pam.d/vsftpd-orig
     fi
 
-    cat <<'EOF' > /etc/pam.d/vsftpd
+    cat <<EOF > /etc/pam.d/vsftpd
 #%PAM-1.0
 session     optional     pam_keyinit.so     force revoke
 auth required pam_mysql.so user=vsftpd passwd=${admin_password} host=localhost db=vsftpd table=accounts usercolumn=username passwdcolumn=pass crypt=3
@@ -374,7 +374,7 @@ EOF
     mkdir /var/www/vhosts/$(hostname)
     fi
 
-    cat <<'EOF' > /etc/httpd/conf.d/mail.conf
+    cat <<EOF > /etc/httpd/conf.d/mail.conf
 NameVirtualHost *:80
 
 <VirtualHost *:80>
@@ -388,7 +388,7 @@ ServerName $(hostname)
 EOF
 
     echo "Configure Postfix"
-    cat <<'EOF' > /etc/postfix/mysql-virtual_domains.cf
+    cat <<EOF > /etc/postfix/mysql-virtual_domains.cf
 user = mail_admin
 password = ${admin_password}
 dbname = mail
@@ -396,7 +396,7 @@ query = SELECT domain AS virtual FROM domains WHERE domain='%s'
 hosts = 127.0.0.1
 EOF
 
-    cat <<'EOF' > /etc/postfix/mysql-virtual_forwardings.cf
+    cat <<EOF > /etc/postfix/mysql-virtual_forwardings.cf
 user = mail_admin
 password = ${admin_password}
 dbname = mail
@@ -404,7 +404,7 @@ query = SELECT destination FROM forwardings WHERE source='%s'
 hosts = 127.0.0.1
 EOF
 
-    cat <<'EOF' > /etc/postfix/mysql-virtual_mailboxes.cf
+    cat <<EOF > /etc/postfix/mysql-virtual_mailboxes.cf
 user = mail_admin
 password = ${admin_password}
 dbname = mail
@@ -412,7 +412,7 @@ query = SELECT CONCAT(SUBSTRING_INDEX(email,'@',-1),'/',SUBSTRING_INDEX(email,'@
 hosts = 127.0.0.1
 EOF
 
-    cat <<'EOF' > /etc/postfix/mysql-virtual_email2email.cf
+    cat <<EOF > /etc/postfix/mysql-virtual_email2email.cf
 user = mail_admin
 password = ${admin_password}
 dbname = mail
@@ -420,7 +420,7 @@ query = SELECT email FROM users WHERE email='%s'
 hosts = 127.0.0.1
 EOF
 
-    cat <<'EOF' > /etc/postfix/mysql-virtual_transports.cf
+    cat <<EOF > /etc/postfix/mysql-virtual_transports.cf
 user = mail_admin
 password = ${admin_password}
 dbname = mail
@@ -462,7 +462,7 @@ postconf -e 'dovecot_destination_recipient_limit = 1'
 postconf -e 'transport_maps = proxy:mysql:/etc/postfix/mysql-virtual_transports.cf'
 
 if ! grep -qe "^dovecot$" "/etc/postfix/master.cf"; then
-    cat <<'EOF' >> /etc/postfix/master.cf
+    cat <<EOF >> /etc/postfix/master.cf
 dovecot   unix  -       n       n       -       -       pipe
   flags=DRhu user=vmail:vmail argv=/usr/libexec/dovecot/deliver -f ${sender} -d ${recipient}
 
@@ -482,7 +482,7 @@ systemctl start postfix.service
         cp -a /etc/dovecot/dovecot.conf /etc/dovecot/dovecot.conf-backup
     fi
 
-    cat <<'EOF' > /etc/dovecot/dovecot.conf
+    cat <<EOF > /etc/dovecot/dovecot.conf
 protocols = imap imaps pop3 pop3s
 log_timestamp = "%Y-%m-%d %H:%M:%S "
 mail_location = maildir:/home/vmail/%d/%n/Maildir
@@ -547,7 +547,7 @@ EOF
     sed -i 's/auth_mechanisms = plain login login/auth_mechanisms = plain login/g' /etc/dovecot/conf.d/10-auth.conf
     grep "auth_mechanisms =" /etc/dovecot/conf.d/10-auth.conf
 
-    cat <<'EOF' > /etc/dovecot-sql.conf
+    cat <<EOF > /etc/dovecot-sql.conf
 driver = mysql
 connect = host=127.0.0.1 dbname=mail user=mail_admin password=${admin_password}
 default_pass_scheme = CRYPT
@@ -585,7 +585,7 @@ chown root:root -R /var/www/html/roundcube
 chmod 777 -R /var/www/html/roundcube/temp/
 chmod 777 -R /var/www/html/roundcube/logs/
 
-sed -e "s|mypassword|${admin_password}|" <<'EOF' | mysql -u root -p"${mysql_root_password}"
+sed -e "s|mypassword|${admin_password}|" <<EOF | mysql -u root -p"${mysql_root_password}"
 USE mysql;
 GRANT USAGE ON * . * TO 'roundcube'@'localhost' IDENTIFIED BY 'mypassword';
 CREATE DATABASE IF NOT EXISTS `roundcube`;
@@ -620,7 +620,7 @@ systemctl reload httpd.service
 useradd vacation
 groupadd vacation
 
-    cat <<'EOF' > /var/spool/vacation/vacation.php
+    cat <<EOF > /var/spool/vacation/vacation.php
    #!/usr/bin/php
 <?php
 $db_type = 'mysql';
@@ -693,7 +693,7 @@ fi
 chown -R vacation.vacation /var/spool/vacation
 chmod 755 /var/spool/vacation/vacation.php
 
-    cat <<'EOF' > /etc/postfix/mysql_vacation.cf
+    cat <<EOF > /etc/postfix/mysql_vacation.cf
 user = mail_admin
 password = ${admin_password}
 dbname = mail
