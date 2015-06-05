@@ -295,7 +295,7 @@ EOF
 elif [ $server_type == "2" ]; then
 	echo "Configuring mailserver.."
 	echo "Installing dependencies.."
-	yum install -y postfix dovecot nano dovecot-mysql zip unzip tar php php-mbstring php-mysql httpd mailx mlocate rsync mysql-server php-xml gcc gdbm-devel postgrey vacation
+	yum install -y postfix dovecot nano dovecot-mysql zip unzip tar php php-mbstring php-mysql php-pear php-intl httpd mailx mlocate rsync mysql-server php-xml gcc gdbm-devel postgrey vacation
 
 	systemctl enable mariadb.service
     systemctl enable httpd.service
