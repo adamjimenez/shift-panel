@@ -274,6 +274,7 @@ CREATE TABLE IF NOT EXISTS vsftpd.accounts (
   id int(11) NOT NULL AUTO_INCREMENT,
   username varchar(50) NOT NULL,
   pass varchar(50) NOT NULL,
+  used int(11) NOT NULL,
   PRIMARY KEY (id),
   UNIQUE KEY username (username)
 );
@@ -309,7 +310,7 @@ elif [ $server_type == "2" ]; then
 
 CREATE TABLE IF NOT EXISTS domains (
   domain varchar(50) NOT NULL,
-  \`usage\` int(11) NOT NULL,
+  used int(11) NOT NULL,
   PRIMARY KEY (domain),
   UNIQUE KEY domain (domain)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -331,7 +332,7 @@ CREATE TABLE IF NOT EXISTS users (
   email varchar(80) NOT NULL,
   \`password\` varchar(20) NOT NULL,
   raw varchar(64) NOT NULL,
-  \`usage\` int(11) NOT NULL,
+  used int(11) NOT NULL,
   PRIMARY KEY (email),
   UNIQUE KEY email (email)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
