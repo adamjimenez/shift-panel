@@ -45,7 +45,7 @@ if [ $server_type == "1" ]; then
 
     echo "Configure Apache"
     cat <<EOF > /etc/httpd/conf.d/vhost.conf
-#IncludeOptional /var/www/vhosts/*/conf/vhost.con[f]
+IncludeOptional /var/www/vhosts/*/con[f]/vhost.con[f]
 
 # get the server name from the Host: header
 UseCanonicalName Off
