@@ -625,69 +625,69 @@ useradd vacation
 groupadd vacation
 
     cat <<EOF > /var/spool/vacation/vacation.php
-   #!/usr/bin/php
+#!/usr/bin/php
 <?php
-$db_type = 'mysql';
+\$db_type = 'mysql';
 
 # leave empty for connection via UNIX socket
-$db_host = 'localhost';
+\$db_host = 'localhost';
 
 # connection details
-$db_username = 'mail_admin';
-$db_password = '${admin_password}';
-$db_name     = 'mail';
+\$db_username = 'mail_admin';
+\$db_password = '${admin_password}';
+\$db_name     = 'mail';
 
 # path to logfile
-$logfile = "/var/log/vacation/vacation.log";
+\$logfile = "/var/log/vacation/vacation.log";
 
 # =========== end configuration ===========
 
-$msg = json_encode($_SERVER);
-#mail('adam.jimenez@gmail.com', 'autoreply', $msg);
+\$msg = json_encode(\$_SERVER);
+#mail('adam.jimenez@gmail.com', 'autoreply', \$msg);
 
-$from = $_SERVER['argv'][2];
-$to = $_SERVER['argv'][4];
-$email = str_replace('auto-reply.', '', $to);
+\$from = \$_SERVER['argv'][2];
+\$to = \$_SERVER['argv'][4];
+\$email = str_replace('auto-reply.', '', \$to);
 
-mysql_connect($db_host, $db_username, $db_password) or die('db failed');
-mysql_select_db($db_name) or die('db select failed');
+mysql_connect(\$db_host, \$db_username, \$db_password) or die('db failed');
+mysql_select_db(\$db_name) or die('db select failed');
 
 //check if already notified
-$select = mysql_query("SELECT * FROM vacation_notification
+\$select = mysql_query("SELECT * FROM vacation_notification
     WHERE
-        on_vacation = '".addslashes($email)."' AND
-        notified = '".addslashes($from)."' AND
+        on_vacation = '".addslashes(\$email)."' AND
+        notified = '".addslashes(\$from)."' AND
         notified_at > DATE_ADD(CURDATE(), INTERVAL -1 DAY);
 ");
 
-if( mysql_num_rows($select) ){
+if( mysql_num_rows(\$select) ){
     die("already notified\n");
 }
 
 mysql_query("INSERT INTO vacation_notification SET
-    on_vacation = '".addslashes($email)."',
-    notified = '".addslashes($from)."'
+    on_vacation = '".addslashes(\$email)."',
+    notified = '".addslashes(\$from)."'
 ") or die(mysql_error());
 
-$select_vacation = mysql_query("SELECT * FROM vacation
+\$select_vacation = mysql_query("SELECT * FROM vacation
     WHERE
-        email = '".addslashes($email)."' AND
+        email = '".addslashes(\$email)."' AND
         active = 1
     LIMIT 1
 ") or die(mysql_error());
 
-$vacation = mysql_fetch_assoc($select_vacation);
+\$vacation = mysql_fetch_assoc($select_vacation);
 
-if( !$vacation ){
+if( !\$vacation ){
     die("no vacation message\n");
     exit;
 }
 
-$headers = "From: $email\n";
+\$headers = "From: \$email\n";
 
-mail($from, $vacation['subject'], $vacation['body'], $headers);
+mail(\$from, \$vacation['subject'], \$vacation['body'], \$headers);
 
-print "mail sent to $from\n";
+print "mail sent to \$from\n";
 EOF
 
 if [ ! -d /var/spool/vacation ]; then
