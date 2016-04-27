@@ -465,10 +465,10 @@ postconf -e 'transport_maps = proxy:mysql:/etc/postfix/mysql-virtual_transports.
 if ! grep -qe "^dovecot$" "/etc/postfix/master.cf"; then
     cat <<EOF >> /etc/postfix/master.cf
 dovecot   unix  -       n       n       -       -       pipe
-  flags=DRhu user=vmail:vmail argv=/usr/libexec/dovecot/deliver -f ${sender} -d ${recipient}
+  flags=DRhu user=vmail:vmail argv=/usr/libexec/dovecot/deliver -f \${sender} -d \${recipient}
 
 vacation     unix  -       n       n       -       -       pipe
-  flags=Rhu user=vacation argv=/var/spool/vacation/vacation.php -f ${sender} -d ${recipient}
+  flags=Rhu user=vacation argv=/var/spool/vacation/vacation.php -f \${sender} -d \${recipient}
 EOF
 fi
 
