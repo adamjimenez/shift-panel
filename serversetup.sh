@@ -488,8 +488,8 @@ protocols = imap imaps pop3 pop3s
 log_timestamp = "%Y-%m-%d %H:%M:%S "
 mail_location = maildir:/home/vmail/%d/%n/Maildir
 
-ssl_cert_file = /etc/pki/dovecot/certs/dovecot.pem
-ssl_key_file = /etc/pki/dovecot/private/dovecot.pem
+#ssl_cert_file = /etc/pki/dovecot/certs/dovecot.pem
+#ssl_key_file = /etc/pki/dovecot/private/dovecot.pem
 
 namespace private {
     separator = .
@@ -510,11 +510,13 @@ protocol pop3 {
 auth default {
     user = root
 
-    passdb sql {
+    passdb {
+    	driver = sql
         args = /etc/dovecot-sql.conf
     }
 
-    userdb static {
+    userdb {
+    	driver = static
         args = uid=5000 gid=5000 home=/home/vmail/%d/%n allow_all_users=yes
     }
 
