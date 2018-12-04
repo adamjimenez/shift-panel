@@ -224,7 +224,7 @@ listen_ipv6=NO
 # here we use the authentication module for vsftpd to check users name and passw
 pam_service_name=vsftpd
 userlist_enable=YES
-tcp_wrappers=YES
+#tcp_wrappers=YES
 
 #Adam Jimenez - tutorial edits
 
